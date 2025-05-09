@@ -21,8 +21,15 @@ export default function Dashboard() {
 
       <div className="container mx-auto px-4 py-6">
         {/* Hero Image */}
-        <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden mb-8">
-          <Image src="/vineyard-hero.jpg" alt="Vineyard landscape" fill priority className="object-cover" />
+        <div className="relative w-full h-64 md:h-80 lg:h-96">
+          <Image
+            src="https://res.cloudinary.com/dauwswgd1/image/upload/v1746815613/vi%C3%B1as_ger0zb.webp"
+            alt="Viñas"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
         </div>
 
         {/* Dashboard Title */}

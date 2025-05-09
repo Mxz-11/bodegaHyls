@@ -2,9 +2,8 @@ import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Playfair_Display } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Providers } from "./providers" // 👈 usamos nuestro nuevo wrapper
 
-// Correctamente inicializar la fuente
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,11 +22,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={playfair.variable}>
-        <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

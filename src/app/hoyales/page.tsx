@@ -9,46 +9,50 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Cloud, Thermometer, Calendar } from "lucide-react"
 
-// Constantes para la API de AEMET
 const CODIGO_MUNICIPIO = "09172"
 const AEMET_API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWxkY3Jlc2NlbjVAZ21haWwuY29tIiwianRpIjoiMjcwMWU2YzUtYTE0Ny00NTBjLWE1YzctNGZhOGJmMTQ4MDllIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3NDMzNjYzMjUsInVzZXJJZCI6IjI3MDFlNmM1LWExNDctNDUwYy1hNWM3LTRmYThiZjE0ODA5ZSIsInJvbGUiOiIifQ.nFpujebMLMdBlG6a-LuH2F9jklqjbCB4U4Juy2rZLlQ"
 
 export default function HoyalesPage() {
-  const [datos, setDatos] = useState(null)
+  const [datos, setDatos] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
+  const [fechaActual, setFechaActual] = useState<string | null>(null)
 
   useEffect(() => {
     async function obtenerDatos() {
       try {
         setLoading(true)
-        // 1. Obtener enlace con datos
         const urlInicial = `https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${CODIGO_MUNICIPIO}?api_key=${AEMET_API_KEY}`
         const resp1 = await fetch(urlInicial)
         const json1 = await resp1.json()
 
         if (!json1.datos) throw new Error("No se obtuvo el enlace a los datos")
 
-        // 2. Obtener predicción real desde el enlace
         const resp2 = await fetch(json1.datos)
         const json2 = await resp2.json()
 
-        setDatos(json2[0]) // AEMET devuelve array con 1 elemento
+        setDatos(json2[0])
         setError(null)
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error en la petición:", error)
-        setError(error.message)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError(String(error))
+        }
       } finally {
         setLoading(false)
       }
     }
 
     obtenerDatos()
+
+    // Solo cliente: fecha actual
+    setFechaActual(new Date().toLocaleString("es-ES"))
   }, [])
 
-  // Formatear fecha para mostrarla de manera más legible
-  const formatearFecha = (fechaStr) => {
+  const formatearFecha = (fechaStr: string) => {
     if (!fechaStr) return ""
     const fecha = new Date(fechaStr)
     return fecha.toLocaleDateString("es-ES", {
@@ -61,12 +65,10 @@ export default function HoyalesPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Desktop Navigation */}
       <div className="hidden md:block">
         <MainNav />
       </div>
 
-      {/* Mobile Navigation */}
       <div className="md:hidden">
         <MobileNav />
       </div>
@@ -108,11 +110,8 @@ export default function HoyalesPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Fecha */}
-                <motion.div
-                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
-                  whileHover={{ y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
+                <motion.div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
+                  whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
                   <div className="bg-[#6b1d1d]/10 p-3 rounded-full mr-4">
                     <Calendar className="h-6 w-6 text-[#6b1d1d]" />
                   </div>
@@ -123,11 +122,8 @@ export default function HoyalesPage() {
                 </motion.div>
 
                 {/* Temperatura máxima */}
-                <motion.div
-                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
-                  whileHover={{ y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
+                <motion.div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
+                  whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
                   <div className="bg-red-100 p-3 rounded-full mr-4">
                     <Thermometer className="h-6 w-6 text-red-500" />
                   </div>
@@ -138,11 +134,8 @@ export default function HoyalesPage() {
                 </motion.div>
 
                 {/* Temperatura mínima */}
-                <motion.div
-                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
-                  whileHover={{ y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
+                <motion.div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
+                  whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
                   <div className="bg-blue-100 p-3 rounded-full mr-4">
                     <Thermometer className="h-6 w-6 text-blue-500" />
                   </div>
@@ -153,11 +146,8 @@ export default function HoyalesPage() {
                 </motion.div>
 
                 {/* Estado del cielo */}
-                <motion.div
-                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
-                  whileHover={{ y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
+                <motion.div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center"
+                  whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
                   <div className="bg-sky-100 p-3 rounded-full mr-4">
                     <Cloud className="h-6 w-6 text-sky-500" />
                   </div>
@@ -172,7 +162,7 @@ export default function HoyalesPage() {
 
               <div className="mt-6 text-center text-sm text-gray-500">
                 <p>Datos proporcionados por AEMET (Agencia Estatal de Meteorología)</p>
-                <p>Última actualización: {new Date().toLocaleString()}</p>
+                <p>Última actualización: {fechaActual ?? "Cargando..."}</p>
               </div>
             </Card>
           ) : null}
