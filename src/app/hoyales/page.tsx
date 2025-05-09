@@ -14,7 +14,22 @@ const AEMET_API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWxkY3Jlc2NlbjVAZ21haWwuY29tIiwianRpIjoiMjcwMWU2YzUtYTE0Ny00NTBjLWE1YzctNGZhOGJmMTQ4MDllIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3NDMzNjYzMjUsInVzZXJJZCI6IjI3MDFlNmM1LWExNDctNDUwYy1hNWM3LTRmYThiZjE0ODA5ZSIsInJvbGUiOiIifQ.nFpujebMLMdBlG6a-LuH2F9jklqjbCB4U4Juy2rZLlQ"
 
 export default function HoyalesPage() {
-  const [datos, setDatos] = useState<any>(null)
+  type PrediccionDia = {
+    fecha: string
+    temperatura: {
+      maxima: string
+      minima: string
+    }
+    estadoCielo: { descripcion?: string }[]
+  }
+  
+  type DatosAEMET = {
+    prediccion: {
+      dia: PrediccionDia[]
+    }
+  }
+  
+  const [datos, setDatos] = useState<DatosAEMET | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [fechaActual, setFechaActual] = useState<string | null>(null)
