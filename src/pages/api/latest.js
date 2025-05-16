@@ -1,6 +1,5 @@
 import sqlite3 from "sqlite3"
 import { open } from "sqlite"
-import path from "path"
 
 export default async function handler(req, res) {
   const dbPath = "/home/mxz-11/Desktop/robotica/data_treatment/ddbb/winery.db"
