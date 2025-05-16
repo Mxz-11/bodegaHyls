@@ -77,6 +77,12 @@ export default function Dashboard() {
           <MetricCard title="Litros/año" value="1.000" valueClassName="text-[#6b1d1d]" />
         </div>
 
+        <Card className="p-6 mb-6">
+            <h2 className="text-xl md:text-2xl font-serif mb-2 text-center text-gray-600 italic">
+              Última lectura - {formatearFecha(date)}
+            </h2>
+        </Card>
+        
         {/* 4 tarjetas (2x2) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <Card className="p-6">
@@ -87,33 +93,6 @@ export default function Dashboard() {
           <Card className="p-6">
             <h2 className="text-2xl font-serif mb-4">Humedad</h2>
             <MetricCard title="Actual" value={humidity} unit="%" />
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-2xl font-serif mb-4">CO₂</h2>
-            <MetricCard title="Actual" value={co2} unit="ppm" />
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-2xl font-serif mb-6 text-center">Última lectura</h2>
-            <div className="grid grid-cols-2 gap-4 text-center">
-              <div>
-                <p className="text-sm text-gray-500">CO₂</p>
-                <p className="text-lg font-semibold text-[#6b1d1d]">{co2} ppm</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Temperatura</p>
-                <p className="text-lg font-semibold">{temperature} °C</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Humedad</p>
-                <p className="text-lg font-semibold">{humidity} %</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Fecha</p>
-                <p className="text-lg font-medium italic">{formatearFecha(date)}</p>
-              </div>
-            </div>
           </Card>
         </div>
 
