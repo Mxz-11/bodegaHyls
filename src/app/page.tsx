@@ -12,7 +12,6 @@ export default function Dashboard() {
   const [latestData, setLatestData] = useState({
     temperature: "Cargando...",
     humidity: "Cargando...",
-    co2: "Cargando...",
     date: "Cargando...",
   })
 
@@ -42,7 +41,7 @@ export default function Dashboard() {
     })
   }
 
-  const { temperature, humidity, co2, date } = latestData
+  const { temperature, humidity, date } = latestData
 
   return (
     <main className="min-h-screen bg-gray-50">
